@@ -20,6 +20,7 @@ interface DynamicMenuProps {
   dropdownItemClassName?: string;
   parentIcon?: boolean;
   onItemClick?: () => void;
+  renderItem?: (item: MenuItem, isActive: boolean) => React.ReactNode;
 }
 
 export const DynamicMenu = ({
@@ -30,7 +31,8 @@ export const DynamicMenu = ({
   dropdownClassName = "",
   dropdownItemClassName = "",
   parentIcon = true,
-  onItemClick
+  onItemClick,
+  renderItem
 }: DynamicMenuProps) => {
   // جميع hooks في بداية المكون وبترتيب ثابت
   const { data: menuStructure, isLoading, error } = useMenuStructure(location);
@@ -216,7 +218,7 @@ export const DynamicMenu = ({
     return (
       <Link key={item.id} href={itemUrl} onClick={onItemClick}>
         <span className={`${itemClassName} ${activeClass}`}>
-          {item.title}
+          {renderItem ? renderItem(item, isItemActive) : item.title}
         </span>
       </Link>
     );

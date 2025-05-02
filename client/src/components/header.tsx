@@ -46,24 +46,30 @@ const Header = () => {
     <header 
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
         scrolled 
-          ? "bg-white/95 shadow-sm backdrop-blur-md" 
+          ? "bg-white/95 shadow-md backdrop-blur-md border-b border-primary/10" 
           : "bg-white"
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between md:h-20">
           <div className="flex items-center">
-            <Link href="/" className="flex items-center">
+            <Link href="/" className="flex items-center group">
               {settings?.logo ? (
-                <img 
-                  src={settings.logo} 
-                  alt={settings?.siteName || 'FULLSCO'} 
-                  className="h-8 md:h-10" 
-                />
+                <div className="overflow-hidden relative transition-all">
+                  <img 
+                    src={settings.logo} 
+                    alt={settings?.siteName || 'FULLSCO'} 
+                    className="h-8 md:h-10 transition-transform duration-300 group-hover:scale-105" 
+                  />
+                  <div className="absolute inset-0 rounded-md bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </div>
               ) : (
-                <span className="text-2xl font-bold tracking-tight text-primary md:text-3xl">
-                  {settings?.siteName || 'FULLSCO'}
-                </span>
+                <div className="transition-all">
+                  <span className="text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-l from-primary to-primary/80 md:text-3xl">
+                    {settings?.siteName || 'FULLSCO'}
+                  </span>
+                  <div className="h-0.5 w-0 bg-accent group-hover:w-full transition-all duration-300"></div>
+                </div>
               )}
               {settings?.siteTagline && (
                 <span className="ml-2 text-xs text-muted-foreground hidden sm:block">
@@ -75,8 +81,11 @@ const Header = () => {
             {/* Desktop Navigation */}
             <nav className="ml-10 hidden space-x-1 md:flex lg:space-x-2">
               <Link href="/">
-                <span className={`link-hover flex items-center px-3 py-2 text-sm font-medium transition-colors ${isActive('/') ? 'text-primary' : 'text-foreground/80 hover:text-primary'}`}>
-                  الرئيسية
+                <span className={`group flex items-center px-3 py-2 text-sm font-medium transition-colors ${isActive('/') ? 'text-primary' : 'text-foreground/80 hover:text-primary'}`}>
+                  <span className="relative">
+                    الرئيسية
+                    <span className={`absolute -bottom-0.5 left-0 h-0.5 w-0 bg-accent transition-all duration-300 ${isActive('/') ? 'w-full' : 'group-hover:w-full'}`}></span>
+                  </span>
                 </span>
               </Link>
               
@@ -84,10 +93,16 @@ const Header = () => {
               <DynamicMenu 
                 location="header" 
                 className="flex items-center space-x-1 lg:space-x-2"
-                itemClassName="link-hover flex items-center px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:text-primary"
+                itemClassName="group flex items-center px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:text-primary"
                 activeItemClassName="text-primary"
-                dropdownClassName="animate-slide-up w-56"
-                dropdownItemClassName="flex cursor-pointer items-center gap-2 py-2"
+                dropdownClassName="animate-slide-up w-56 rounded-lg border border-primary/10 shadow-lg p-1"
+                dropdownItemClassName="flex cursor-pointer items-center gap-2 py-2 px-2 rounded-md hover:bg-primary/5 transition-colors"
+                renderItem={(item, isActive) => (
+                  <span className="relative">
+                    {item.title}
+                    <span className={`absolute -bottom-0.5 left-0 h-0.5 w-0 bg-accent transition-all duration-300 ${isActive ? 'w-full' : 'group-hover:w-full'}`}></span>
+                  </span>
+                )}
               />
               
               {/* الاحتياطي في حال لم يتم تحميل القائمة الديناميكية */}
@@ -189,7 +204,7 @@ const Header = () => {
               {user ? (
                 <Link href="/admin/dashboard">
                   <Button 
-                    className="button-hover hidden items-center gap-2 rounded-full border-primary bg-primary/10 text-primary hover:bg-primary/20 sm:flex"
+                    className="button-hover hidden items-center gap-2 rounded-full border-primary/30 bg-gradient-to-r from-primary/10 to-primary/5 text-primary shadow-sm hover:shadow-md hover:from-primary/15 hover:to-primary/10 hover:border-primary/40 sm:flex transition-all duration-300"
                     variant="outline"
                   >
                     <User className="h-4 w-4" />
@@ -200,7 +215,7 @@ const Header = () => {
                 <Link href="/admin/login">
                   <Button 
                     variant="outline" 
-                    className="button-hover hidden items-center gap-2 rounded-full text-primary hover:bg-primary/10 sm:flex"
+                    className="button-hover hidden items-center gap-2 rounded-full border-primary/30 bg-gradient-to-r from-primary/10 to-primary/5 text-primary shadow-sm hover:shadow-md hover:from-primary/15 hover:to-primary/10 hover:border-primary/40 sm:flex transition-all duration-300"
                   >
                     <User className="h-4 w-4" />
                     <span>تسجيل الدخول</span>
@@ -210,9 +225,10 @@ const Header = () => {
               
               <Link href="/subscribe">
                 <Button 
-                  className="button-hover rounded-full bg-accent font-medium text-white shadow-soft transition-all hover:bg-accent/90"
+                  className="button-hover rounded-full bg-gradient-to-r from-accent to-accent/90 font-medium text-white shadow-md transition-all hover:shadow-lg hover:from-accent/95 hover:to-accent/85 relative overflow-hidden group"
                 >
-                  اشترك الآن
+                  <span className="relative z-10">اشترك الآن</span>
+                  <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-accent/80 to-accent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
                 </Button>
               </Link>
               
