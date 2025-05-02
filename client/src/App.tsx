@@ -122,7 +122,7 @@ function App() {
                     <Route path="/admin/new" component={NewDashboard} />
                     
                     {/* Root Admin Route - Redirects to Dashboard */}
-                    <Route path="/admin" exact component={AdminDashboard} />
+                    <Route path="/admin" component={AdminDashboard} />
                     
                     {/* Original Admin Routes */}
                     <Route path="/admin/dashboard" component={AdminDashboard} />

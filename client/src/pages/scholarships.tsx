@@ -18,6 +18,34 @@ import { Helmet } from 'react-helmet';
 
 const Scholarships = () => {
   const [location, setLocation] = useLocation();
+  
+  // دالة لتحديث URL بناءً على الفلاتر
+  const updateURL = (newFilters: {country: string, level: string, category: string, funded: string}) => {
+    // إنشاء كائن URLSearchParams جديد
+    const params = new URLSearchParams();
+    
+    // إضافة معلمات الفلاتر إذا كانت موجودة وليست 'all'
+    if (newFilters.country && newFilters.country !== 'all') {
+      params.append('country', newFilters.country);
+    }
+    
+    if (newFilters.level && newFilters.level !== 'all') {
+      params.append('level', newFilters.level);
+    }
+    
+    if (newFilters.category && newFilters.category !== 'all') {
+      params.append('category', newFilters.category);
+    }
+    
+    if (newFilters.funded && newFilters.funded !== 'all') {
+      params.append('funded', newFilters.funded);
+    }
+    
+    // تحديث URL
+    const newUrl = `/scholarships${params.toString() ? `?${params.toString()}` : ''}`;
+    console.log('تحديث URL إلى:', newUrl);
+    setLocation(newUrl, { replace: true });
+  };
   const [filters, setFilters] = useState({
     country: '',
     level: '',
@@ -33,12 +61,19 @@ const Scholarships = () => {
     const categoryParam = searchParams.get('category');
     const fundedParam = searchParams.get('funded');
     
-    setFilters({
+    // تحديث الفلاتر فقط إذا كانت القيم الجديدة مختلفة عن القيم الحالية
+    const newFilters = {
       country: countryParam || '',
       level: levelParam || '',
       category: categoryParam || '',
       funded: fundedParam || ''
-    });
+    };
+    
+    // تحديث حالة الفلاتر إذا تغيرت معلمات URL
+    if (JSON.stringify(newFilters) !== JSON.stringify(filters)) {
+      console.log('تحديث الفلاتر من URL:', newFilters);
+      setFilters(newFilters);
+    }
   }, [location]);
 
   // جلب المنح الدراسية مع الفلترة
@@ -122,7 +157,14 @@ const Scholarships = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">الدولة</label>
                 <Select 
                   value={filters.country} 
-                  onValueChange={(value) => setFilters({...filters, country: value})}
+                  onValueChange={(value) => {
+                    // تحديث الفلاتر أولاً
+                    const newFilters = {...filters, country: value};
+                    setFilters(newFilters);
+                    
+                    // تحديث URL بناءً على الفلاتر الجديدة
+                    updateURL(newFilters);
+                  }}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="جميع الدول" />

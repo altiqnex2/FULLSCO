@@ -130,11 +130,14 @@ export const DynamicMenu = ({
         // استخدام السلاق مباشرة إذا كان موجوداً، وإلا استخدام المسار بالمعرف
         return slug ? `/${slug}` : `/pages/${item.pageId}`;
       case 'category':
-        return `/scholarships?category=${item.categoryId}`;
+        // تأكد من تضمين معرف الفئة في معلمات URL
+        return item.categoryId ? `/scholarships?category=${item.categoryId}` : '/scholarships';
       case 'level':
-        return `/scholarships?level=${item.levelId}`;
+        // تأكد من تضمين معرف المستوى في معلمات URL
+        return item.levelId ? `/scholarships?level=${item.levelId}` : '/scholarships';
       case 'country':
-        return `/scholarships?country=${item.countryId}`;
+        // تأكد من تضمين معرف الدولة في معلمات URL
+        return item.countryId ? `/scholarships?country=${item.countryId}` : '/scholarships';
       case 'scholarship':
         return `/scholarship/${item.scholarshipId}`;
       case 'post':
