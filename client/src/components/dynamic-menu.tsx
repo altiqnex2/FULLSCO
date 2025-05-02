@@ -36,7 +36,12 @@ export const DynamicMenu = ({
   
   const isActive = (path: string) => location1 === path;
   const isPageActive = (slug: string) => {
-    return location1 === `/page/${slug}` || location1 === `/pages/${slug}`;
+    // فحص ما إذا كان المسار الحالي يطابق خيارات مختلفة من روابط الصفحة
+    return (
+      location1 === `/${slug}` || // المسار المباشر مثل /about-us
+      location1 === `/page/${slug}` || // مسار /page/:slug 
+      location1 === `/pages/${slug}` // مسار /pages/:id للتوافق مع الإصدارات القديمة
+    );
   };
   
   if (isLoading) {
@@ -123,7 +128,8 @@ export const DynamicMenu = ({
       case 'page':
         // استخدام رابط الصفحة الثابتة مع السلاق بدلاً من المعرف
         const slug = getPageSlug(item.pageId);
-        return slug ? `/page/${slug}` : `/pages/${item.pageId}`;
+        // استخدام السلاق مباشرة إذا كان موجوداً، وإلا استخدام المسار بالمعرف
+        return slug ? `/${slug}` : `/pages/${item.pageId}`;
       case 'category':
         return `/scholarships?category=${item.categoryId}`;
       case 'level':
@@ -145,9 +151,18 @@ export const DynamicMenu = ({
     const itemUrl = getItemUrl(item);
     const hasChildren = item.children && item.children.length > 0;
     
-    const activeClass = isActive(itemUrl) || isPageActive(itemUrl.replace('/page/', '')) 
-      ? activeItemClassName 
-      : '';
+    // تحديد ما إذا كان العنصر نشطاً بناءً على المسار الحالي
+    let isItemActive = isActive(itemUrl); // التحقق من التطابق المباشر
+    
+    // إذا كان نوع العنصر صفحة، نتحقق من السلاق
+    if (item.type === 'page' && !isItemActive) {
+      const slug = getPageSlug(item.pageId);
+      if (slug) {
+        isItemActive = isPageActive(slug);
+      }
+    }
+    
+    const activeClass = isItemActive ? activeItemClassName : '';
     
     if (hasChildren) {
       return (

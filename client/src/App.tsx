@@ -108,11 +108,21 @@ function App() {
                     <Route path="/articles" component={Articles} />
                     <Route path="/articles/:slug" component={ArticleDetail} />
                     {/* مسارات الصفحات الثابتة باستخدام السلاق مباشرةً */}
-                    <Route path="/privacy-policy" component={() => <StaticPage slug="privacy-policy" />} />
-                    <Route path="/about-us" component={() => <StaticPage slug="about-us" />} />
-                    <Route path="/terms-of-service" component={() => <StaticPage slug="terms-of-service" />} />
-                    <Route path="/faq" component={() => <StaticPage slug="faq" />} />
-                    <Route path="/contact-us" component={() => <StaticPage slug="contact-us" />} />
+                    <Route path="/privacy-policy">
+                      {() => <StaticPage slug="privacy-policy" />}
+                    </Route>
+                    <Route path="/about-us">
+                      {() => <StaticPage slug="about-us" />}
+                    </Route>
+                    <Route path="/terms-of-service">
+                      {() => <StaticPage slug="terms-of-service" />}
+                    </Route>
+                    <Route path="/faq">
+                      {() => <StaticPage slug="faq" />}
+                    </Route>
+                    <Route path="/contact-us">
+                      {() => <StaticPage slug="contact-us" />}
+                    </Route>
                     
                     {/* مسارات الصفحات العامة باستخدام السلاق والمعرف - للدعم المستقبلي */}
                     <Route path="/page/:slug" component={StaticPage} />

@@ -4,9 +4,24 @@ import { usePage } from "@/hooks/use-pages";
 import { Helmet } from "react-helmet";
 import { Loader2 } from "lucide-react";
 
-const StaticPage = () => {
-  const { slug } = useParams<{ slug: string }>();
-  const { data: page, isLoading, error } = usePage(slug);
+type StaticPageProps = 
+  | { slug?: string }
+  | { params: Record<string, string> };
+
+const StaticPage = (props: StaticPageProps) => {
+  // الحصول على الـ slug من البروبس أو المعاملات
+  let slug: string | undefined;
+  
+  if ('slug' in props) {
+    // إذا كان props يحتوي على slug، نستخدمه
+    slug = props.slug;
+  } else {
+    // استخدام المسار الذي تم تمريره من الراوتر
+    const params = useParams<{ slug: string }>();
+    slug = params.slug;
+  }
+  
+  const { data: page, isLoading, error } = usePage(slug || '');
   const [_, setLocation] = useLocation();
 
   useEffect(() => {
