@@ -82,6 +82,16 @@ export const DynamicMenu = ({
     console.error(`Menu items for ${location} is not an array:`, menuItems);
     return <div className={className}>تعذر تحميل القائمة: بيانات غير صالحة</div>;
   }
+  
+  // تصفية العناصر لعرض العناصر المناسبة للموقع الحالي
+  let filteredItems = menuItems;
+  const locationMenuId = location === 'header' ? 1 : location === 'footer' ? 2 : location === 'sidebar' ? 3 : null;
+  
+  if (locationMenuId) {
+    // تصفية العناصر لتظهر فقط تلك التي تنتمي إلى القائمة المناسبة
+    filteredItems = menuItems.filter(item => item.menuId === locationMenuId);
+    console.log(`Filtered items for menu ID ${locationMenuId} (${location}):`, filteredItems);
+  }
 
   const getItemUrl = (item: MenuItem): string => {
     switch (item.type) {
@@ -170,7 +180,7 @@ export const DynamicMenu = ({
 
   return (
     <div className={className}>
-      {menuItems.map(renderMenuItem)}
+      {filteredItems.map(renderMenuItem)}
     </div>
   );
 };

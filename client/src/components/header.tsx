@@ -24,8 +24,9 @@ const Header = () => {
   const { user } = useAuth();
   const isMobile = useIsMobile();
   const { settings, isLoading: settingsLoading } = useSiteSettings();
+  // استخدام قائمة الهيدر الديناميكية
   const { data: headerPages, isLoading: pagesLoading } = usePages({ showInHeader: true });
-  const { data: menuStructure, isError: menuError } = useMenuStructure("header");
+  const { data: menuStructure, isError: menuError, isLoading: menuLoading } = useMenuStructure("header");
 
   useEffect(() => {
     const handleScroll = () => {
