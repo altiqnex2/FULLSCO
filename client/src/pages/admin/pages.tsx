@@ -58,8 +58,8 @@ interface Page {
   metaTitle?: string;
   metaDescription?: string;
   isPublished: boolean;
-  showInFooter: boolean;
-  showInHeader: boolean;
+  showInFooter?: boolean; // ستتم إزالتها لاحقًا من النظام - قد تأتي من الخادم حاليًا
+  showInHeader?: boolean; // ستتم إزالتها لاحقًا من النظام - قد تأتي من الخادم حاليًا
   createdAt: string;
   updatedAt: string;
 }
@@ -113,8 +113,7 @@ export default function PagesManagementPage() {
     if (activeTab === 'all') return true;
     if (activeTab === 'published') return page.isPublished;
     if (activeTab === 'drafts') return !page.isPublished;
-    if (activeTab === 'footer') return page.showInFooter;
-    if (activeTab === 'header') return page.showInHeader;
+    // تم إزالة خيارات العرض في الهيدر والفوتر لتتم إدارتها عبر القوائم فقط
     return true;
   }) || [];
 
@@ -271,8 +270,7 @@ export default function PagesManagementPage() {
         metaTitle: selectedPage.metaTitle || '',
         metaDescription: selectedPage.metaDescription || '',
         isPublished: selectedPage.isPublished,
-        showInFooter: selectedPage.showInFooter,
-        showInHeader: selectedPage.showInHeader,
+        // تم إزالة خيارات العرض في الهيدر والفوتر لتتم إدارتها عبر القوائم فقط
       });
     }
   }, [selectedPage, editForm]);
@@ -529,7 +527,7 @@ export default function PagesManagementPage() {
                           )}
                         />
                       </div>
-                      <div className="grid md:grid-cols-3 gap-4">
+                      <div className="grid md:grid-cols-1 gap-4">
                         <FormField
                           control={addForm.control}
                           name="isPublished"
@@ -551,48 +549,7 @@ export default function PagesManagementPage() {
                             </FormItem>
                           )}
                         />
-                        <FormField
-                          control={addForm.control}
-                          name="showInFooter"
-                          render={({ field }) => (
-                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                              <div className="space-y-0.5">
-                                <FormLabel>عرض في التذييل</FormLabel>
-                                <FormDescription>
-                                  هل تظهر في قائمة التذييل؟
-                                </FormDescription>
-                              </div>
-                              <FormControl>
-                                <Switch
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={addForm.control}
-                          name="showInHeader"
-                          render={({ field }) => (
-                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                              <div className="space-y-0.5">
-                                <FormLabel>عرض في الهيدر</FormLabel>
-                                <FormDescription>
-                                  هل تظهر في قائمة الهيدر؟
-                                </FormDescription>
-                              </div>
-                              <FormControl>
-                                <Switch
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                        {/* تم إزالة خيارات العرض في الهيدر والفوتر لتتم إدارتها عبر القوائم فقط */}
                       </div>
                       <DialogFooter>
                         <Button type="submit" disabled={addMutation.isPending}>
@@ -621,8 +578,7 @@ export default function PagesManagementPage() {
               <TabsTrigger value="all">جميع الصفحات</TabsTrigger>
               <TabsTrigger value="published">منشورة</TabsTrigger>
               <TabsTrigger value="drafts">مسودات</TabsTrigger>
-              <TabsTrigger value="footer">في التذييل</TabsTrigger>
-              <TabsTrigger value="header">في الهيدر</TabsTrigger>
+              {/* تم إزالة خيارات العرض في الهيدر والفوتر لتتم إدارتها عبر القوائم فقط */}
             </TabsList>
             
             <Card className="shadow-soft">
@@ -631,15 +587,13 @@ export default function PagesManagementPage() {
                   {activeTab === 'all' && 'جميع الصفحات'}
                   {activeTab === 'published' && 'الصفحات المنشورة'}
                   {activeTab === 'drafts' && 'المسودات'}
-                  {activeTab === 'footer' && 'صفحات التذييل'}
-                  {activeTab === 'header' && 'صفحات الهيدر'}
+                  {/* تم إزالة خيارات العرض في الهيدر والفوتر لتتم إدارتها عبر القوائم فقط */}
                 </CardTitle>
                 <CardDescription>
                   {activeTab === 'all' && 'قائمة بجميع الصفحات الثابتة في الموقع'}
                   {activeTab === 'published' && 'الصفحات المنشورة والمتاحة للزوار'}
                   {activeTab === 'drafts' && 'المسودات غير المنشورة (صفحات قيد الإنشاء)'}
-                  {activeTab === 'footer' && 'الصفحات التي تظهر في قائمة التذييل'}
-                  {activeTab === 'header' && 'الصفحات التي تظهر في قائمة الهيدر'}
+                  {/* تم إزالة خيارات العرض في الهيدر والفوتر لتتم إدارتها عبر القوائم فقط */}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -852,7 +806,7 @@ export default function PagesManagementPage() {
                         )}
                       />
                     </div>
-                    <div className="grid md:grid-cols-3 gap-4">
+                    <div className="grid md:grid-cols-1 gap-4">
                       <FormField
                         control={editForm.control}
                         name="isPublished"
@@ -874,48 +828,7 @@ export default function PagesManagementPage() {
                           </FormItem>
                         )}
                       />
-                      <FormField
-                        control={editForm.control}
-                        name="showInFooter"
-                        render={({ field }) => (
-                          <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                            <div className="space-y-0.5">
-                              <FormLabel>عرض في التذييل</FormLabel>
-                              <FormDescription>
-                                هل تظهر في قائمة التذييل؟
-                              </FormDescription>
-                            </div>
-                            <FormControl>
-                              <Switch
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={editForm.control}
-                        name="showInHeader"
-                        render={({ field }) => (
-                          <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
-                            <div className="space-y-0.5">
-                              <FormLabel>عرض في الهيدر</FormLabel>
-                              <FormDescription>
-                                هل تظهر في قائمة الهيدر؟
-                              </FormDescription>
-                            </div>
-                            <FormControl>
-                              <Switch
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                      {/* تم إزالة خيارات العرض في الهيدر والفوتر لتتم إدارتها عبر القوائم فقط */}
                     </div>
                     <DialogFooter>
                       <Button type="submit" disabled={updateMutation.isPending}>
