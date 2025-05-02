@@ -35,7 +35,9 @@ export const DynamicMenu = ({
   const [location1] = useLocation();
   
   const isActive = (path: string) => location1 === path;
-  const isPageActive = (slug: string) => location1 === `/page/${slug}`;
+  const isPageActive = (slug: string) => {
+    return location1 === `/page/${slug}` || location1 === `/pages/${slug}`;
+  };
   
   if (isLoading) {
     return <div className={className}>جاري التحميل...</div>;
@@ -97,11 +99,31 @@ export const DynamicMenu = ({
     console.log(`Filtered items for menu ID ${locationMenuId} (${location}): found ${filteredItems.length} items`);
   }
 
+  // دالة للحصول على سلاق الصفحة من المعرف
+  const getPageSlug = (pageId: number | null): string | null => {
+    if (!pageId) return null;
+    
+    // من نحن - about-us
+    if (pageId === 1) return 'about-us';
+    // دق علينا - contact-us
+    if (pageId === 2) return 'contact-us';
+    // سياسة الخصوصية - privacy-policy
+    if (pageId === 3) return 'privacy-policy';
+    // شروط الاستخدام - terms-of-service
+    if (pageId === 4) return 'terms-of-service';
+    // الأسئلة الشائعة - faq
+    if (pageId === 5) return 'faq';
+    
+    // إذا لم يتم العثور على سلاق مطابق، نعود إلى المسار بالمعرف
+    return null;
+  };
+
   const getItemUrl = (item: MenuItem): string => {
     switch (item.type) {
       case 'page':
-        // استخدام رابط الصفحة الثابتة - تصحيح المسار ليصبح /pages/:id
-        return `/pages/${item.pageId}`;
+        // استخدام رابط الصفحة الثابتة مع السلاق بدلاً من المعرف
+        const slug = getPageSlug(item.pageId);
+        return slug ? `/page/${slug}` : `/pages/${item.pageId}`;
       case 'category':
         return `/scholarships?category=${item.categoryId}`;
       case 'level':

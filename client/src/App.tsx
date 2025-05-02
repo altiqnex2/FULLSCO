@@ -107,6 +107,14 @@ function App() {
                     <Route path="/scholarships/:slug" component={ScholarshipDetail} />
                     <Route path="/articles" component={Articles} />
                     <Route path="/articles/:slug" component={ArticleDetail} />
+                    {/* مسارات الصفحات الثابتة باستخدام السلاق مباشرةً */}
+                    <Route path="/privacy-policy" component={() => <StaticPage slug="privacy-policy" />} />
+                    <Route path="/about-us" component={() => <StaticPage slug="about-us" />} />
+                    <Route path="/terms-of-service" component={() => <StaticPage slug="terms-of-service" />} />
+                    <Route path="/faq" component={() => <StaticPage slug="faq" />} />
+                    <Route path="/contact-us" component={() => <StaticPage slug="contact-us" />} />
+                    
+                    {/* مسارات الصفحات العامة باستخدام السلاق والمعرف - للدعم المستقبلي */}
                     <Route path="/page/:slug" component={StaticPage} />
                     <Route path="/pages/:id" component={PageById} />
                     
