@@ -42,6 +42,7 @@ export const DynamicMenu = ({
   }
   
   if (error || !menuStructure || !menuStructure.items) {
+    console.error(`Error loading menu for ${location}:`, error);
     return <div className={className}>تعذر تحميل القائمة</div>;
   }
 

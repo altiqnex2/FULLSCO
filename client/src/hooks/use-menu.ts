@@ -65,6 +65,14 @@ export function useMenuByLocation(location: 'header' | 'footer' | 'sidebar' | 'm
 export function useMenuStructure(location: 'header' | 'footer' | 'sidebar' | 'mobile') {
   return useQuery<MenuStructure>({
     queryKey: ['/api/menu-structure', location],
+    queryFn: async () => {
+      // استخدام نقطة نهاية محددة لكل موقع
+      const response = await fetch(`/api/menu-structure/${location}`);
+      if (!response.ok) {
+        throw new Error(`Error fetching menu structure for ${location}`);
+      }
+      return response.json();
+    },
     refetchOnWindowFocus: false
   });
 }
