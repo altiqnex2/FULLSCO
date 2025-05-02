@@ -7,6 +7,7 @@ import ScholarshipDetail from "@/pages/scholarship-detail";
 import Articles from "@/pages/articles";
 import ArticleDetail from "@/pages/article-detail";
 import StaticPage from "@/pages/static-page";
+import PageById from "@/pages/page-by-id";
 
 // Admin Components
 import AdminDashboard from "@/pages/admin/dashboard";
@@ -107,6 +108,7 @@ function App() {
                     <Route path="/articles" component={Articles} />
                     <Route path="/articles/:slug" component={ArticleDetail} />
                     <Route path="/page/:slug" component={StaticPage} />
+                    <Route path="/pages/:id" component={PageById} />
                     
                     {/* Admin Login */}
                     <Route path="/admin/login" component={AdminLogin} />

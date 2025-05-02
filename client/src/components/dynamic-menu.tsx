@@ -100,6 +100,7 @@ export const DynamicMenu = ({
   const getItemUrl = (item: MenuItem): string => {
     switch (item.type) {
       case 'page':
+        // استخدام رابط الصفحة الثابتة
         return `/page/${item.pageId}`;
       case 'category':
         return `/scholarships?category=${item.categoryId}`;

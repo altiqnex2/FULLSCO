@@ -76,3 +76,27 @@ export function usePage(slug: string, enabled = true) {
     enabled: enabled && !!slug
   });
 }
+
+// جلب الصفحة بواسطة المعرف (ID)
+export function usePageById(id: number | string | null | undefined, enabled = true) {
+  const pageId = id ? Number(id) : null;
+  
+  return useQuery<Page>({
+    queryKey: [`/api/pages/${pageId}`],
+    queryFn: async () => {
+      const response = await fetch(`/api/pages/${pageId}`);
+      
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error('الصفحة غير موجودة');
+        }
+        
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'فشل في جلب الصفحة');
+      }
+      
+      return response.json();
+    },
+    enabled: enabled && pageId !== null && !isNaN(pageId)
+  });
+}
