@@ -188,20 +188,35 @@ export class DatabaseStorage implements IStorage {
         return null;
       }
       
-      // Then get all menu items for this menu
-      const items = await this.getAllMenuItemsWithDetails(menu.id);
+      // Get root level menu items (parentId is null)
+      const rootItems = await this.listMenuItems(menu.id, null);
       
-      // Create the menu structure
-      return {
+      // Prepare the structure
+      const structure = {
         id: menu.id,
         name: menu.name,
         slug: menu.slug,
         location: menu.location,
-        items: items || []
+        items: []
       };
+      
+      // For each root item, get its children
+      for (const rootItem of rootItems) {
+        const item: any = { ...rootItem, children: [] };
+        
+        if (rootItem.id) {
+          // Get child items for this root item
+          const children = await this.listMenuItems(menu.id, rootItem.id);
+          item.children = children || [];
+        }
+        
+        structure.items.push(item);
+      }
+      
+      return structure;
     } catch (error) {
       console.error(`Error getting menu structure for ${location}:`, error);
-      return null;
+      throw error; // رمي الخطأ ليتم التقاطه في routes.ts
     }
   }
   // User operations
@@ -887,33 +902,5 @@ export class DatabaseStorage implements IStorage {
     return enrichedItems;
   }
 
-  async getMenuStructure(location: string): Promise<any> {
-    const menu = await this.getMenuByLocation(location);
-    if (!menu) return null;
-    
-    const rootItems = await this.listMenuItems(menu.id, null);
-    const structure = {
-      id: menu.id,
-      name: menu.name,
-      slug: menu.slug,
-      location: menu.location,
-      items: []
-    };
-    
-    for (const rootItem of rootItems) {
-      const item: any = { ...rootItem, children: [] };
-      
-      if (rootItem.id) {
-        const children = await this.listMenuItems(menu.id, rootItem.id);
-        
-        for (const child of children) {
-          item.children.push(child);
-        }
-      }
-      
-      structure.items.push(item);
-    }
-    
-    return structure;
-  }
+  // Removed duplicated getMenuStructure method - using the one defined earlier
 }
