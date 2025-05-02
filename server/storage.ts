@@ -16,7 +16,7 @@ import {
   menuItems, MenuItem, InsertMenuItem
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, and, count } from "drizzle-orm";
+import { eq, and, count, sql } from "drizzle-orm";
 import { DatabaseStorage } from "./db-storage";
 
 // Storage interface
@@ -1600,6 +1600,39 @@ export class DatabaseStorage implements IStorage {
 }
 
 export const storage = new DatabaseStorage();
+
+// إضافة الدوال المطلوبة يدويًا للكائن المُصَدّر
+
+// إضافة وظيفة listMenuItems
+storage.listMenuItems = async (menuId: number, parentId?: number | null): Promise<MenuItem[]> => {
+  try {
+    let query = db.select().from(menuItems).where(eq(menuItems.menuId, menuId));
+    
+    if (parentId !== undefined) {
+      if (parentId === null) {
+        query = query.where(sql`${menuItems.parentId} IS NULL`);
+      } else {
+        query = query.where(eq(menuItems.parentId, parentId));
+      }
+    }
+    
+    return await query.orderBy(menuItems.order);
+  } catch (error) {
+    console.error("Error listing menu items:", error);
+    return [];
+  }
+};
+
+// إضافة وظيفة getMenuByLocation
+storage.getMenuByLocation = async (location: string): Promise<Menu | undefined> => {
+  try {
+    const [menu] = await db.select().from(menus).where(eq(menus.location, location));
+    return menu;
+  } catch (error) {
+    console.error("Error getting menu by location:", error);
+    return undefined;
+  }
+};
 
 // إضافة وظيفة getMenuStructure يدويًا للكائن المُصَدّر
 storage.getMenuStructure = async (location: string): Promise<any> => {
