@@ -390,6 +390,9 @@ export default function MenusPage() {
       .then(() => {
         // استخدام المسار الكامل للاستعلام بدلاً من استخدام المفتاح مع المعرف
         queryClient.invalidateQueries({ queryKey: [`/api/menu-items-with-details/menu/${activeMenuId}`] });
+        // تحديث كافة استعلامات هيكل القائمة بغض النظر عن الموقع (لضمان تحديث الواجهة الأمامية)
+        queryClient.invalidateQueries({ queryKey: ['/api/menu-structure'] });
+        // تحديث التبويب النشط أيضاً للواجهة الإدارية
         queryClient.invalidateQueries({ queryKey: ['/api/menu-structure', activeTab] });
         toast({
           title: 'تم الإضافة بنجاح',
@@ -426,6 +429,9 @@ export default function MenusPage() {
       .then(() => {
         // استخدام المسار الكامل للاستعلام بدلاً من استخدام المفتاح مع المعرف
         queryClient.invalidateQueries({ queryKey: [`/api/menu-items-with-details/menu/${activeMenuId}`] });
+        // تحديث كافة استعلامات هيكل القائمة بغض النظر عن الموقع (لضمان تحديث الواجهة الأمامية)
+        queryClient.invalidateQueries({ queryKey: ['/api/menu-structure'] });
+        // تحديث التبويب النشط أيضاً للواجهة الإدارية
         queryClient.invalidateQueries({ queryKey: ['/api/menu-structure', activeTab] });
         toast({
           title: 'تم التحديث بنجاح',
@@ -450,6 +456,9 @@ export default function MenusPage() {
       .then(() => {
         // استخدام المسار الكامل للاستعلام بدلاً من استخدام المفتاح مع المعرف
         queryClient.invalidateQueries({ queryKey: [`/api/menu-items-with-details/menu/${activeMenuId}`] });
+        // تحديث كافة استعلامات هيكل القائمة بغض النظر عن الموقع (لضمان تحديث الواجهة الأمامية)
+        queryClient.invalidateQueries({ queryKey: ['/api/menu-structure'] });
+        // تحديث التبويب النشط أيضاً للواجهة الإدارية
         queryClient.invalidateQueries({ queryKey: ['/api/menu-structure', activeTab] });
         toast({
           title: 'تم الحذف بنجاح',
