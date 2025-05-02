@@ -41,9 +41,22 @@ export const DynamicMenu = ({
     return <div className={className}>جاري التحميل...</div>;
   }
   
-  if (error || !menuStructure || !menuStructure.items) {
+  if (error) {
     console.error(`Error loading menu for ${location}:`, error);
-    return <div className={className}>تعذر تحميل القائمة</div>;
+    return <div className={className}>تعذر تحميل القائمة: خطأ في الاتصال</div>;
+  }
+  
+  if (!menuStructure) {
+    console.error(`Menu structure for ${location} is undefined`);
+    return <div className={className}>تعذر تحميل القائمة: لا توجد بيانات</div>;
+  }
+
+  // طباعة هيكل القائمة للتشخيص
+  console.log(`Menu structure for ${location}:`, menuStructure);
+  
+  if (!menuStructure.items) {
+    console.error(`Menu items for ${location} are undefined`);
+    return <div className={className}>تعذر تحميل القائمة: لا توجد عناصر</div>;
   }
 
   const getItemUrl = (item: MenuItem): string => {

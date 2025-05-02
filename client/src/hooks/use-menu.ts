@@ -67,11 +67,14 @@ export function useMenuStructure(location: 'header' | 'footer' | 'sidebar' | 'mo
     queryKey: ['/api/menu-structure', location],
     queryFn: async () => {
       // استخدام نقطة نهاية محددة لكل موقع
+      console.log(`Fetching menu structure for ${location}`);
       const response = await fetch(`/api/menu-structure/${location}`);
       if (!response.ok) {
         throw new Error(`Error fetching menu structure for ${location}`);
       }
-      return response.json();
+      const data = await response.json();
+      console.log(`Menu data for ${location}:`, data);
+      return data;
     },
     refetchOnWindowFocus: false
   });
