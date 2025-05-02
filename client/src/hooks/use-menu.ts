@@ -70,7 +70,10 @@ export function useMenuStructure(location: 'header' | 'footer' | 'sidebar' | 'mo
     queryFn: async () => {
       // استخدام نقطة نهاية محددة لكل موقع
       console.log(`Fetching menu structure for ${location}`);
-      const response = await fetch(`/api/menu-structure/${location}`);
+      
+      // إضافة معامل عشوائي لمنع التخزين المؤقت في المتصفح
+      const cacheBuster = new Date().getTime();
+      const response = await fetch(`/api/menu-structure/${location}?_=${cacheBuster}`);
       if (!response.ok) {
         throw new Error(`Error fetching menu structure for ${location}`);
       }
@@ -78,7 +81,8 @@ export function useMenuStructure(location: 'header' | 'footer' | 'sidebar' | 'mo
       console.log(`Menu data for ${location}:`, data);
       return data;
     },
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: true,  // إعادة تحميل البيانات عند التركيز على النافذة
+    refetchInterval: 3000  // إعادة تحميل البيانات كل 3 ثواني
   });
 }
 
