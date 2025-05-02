@@ -44,8 +44,7 @@ const pageSchema = z.object({
   metaTitle: z.string().optional(),
   metaDescription: z.string().optional(),
   isPublished: z.boolean().default(true),
-  showInFooter: z.boolean().default(false),
-  showInHeader: z.boolean().default(false),
+  // خيارات العرض في الهيدر والفوتر تتم إدارتها عبر القوائم فقط
 });
 
 type PageFormValues = z.infer<typeof pageSchema>;
@@ -244,8 +243,7 @@ export default function PagesManagementPage() {
       metaTitle: '',
       metaDescription: '',
       isPublished: true,
-      showInFooter: false,
-      showInHeader: false,
+      // تم إزالة خيارات العرض في الهيدر والفوتر لتتم إدارتها عبر القوائم فقط
     },
   });
 
@@ -259,8 +257,7 @@ export default function PagesManagementPage() {
       metaTitle: selectedPage?.metaTitle || '',
       metaDescription: selectedPage?.metaDescription || '',
       isPublished: selectedPage?.isPublished || true,
-      showInFooter: selectedPage?.showInFooter || false,
-      showInHeader: selectedPage?.showInHeader || false,
+      // تم إزالة خيارات العرض في الهيدر والفوتر لتتم إدارتها عبر القوائم فقط
     },
   });
 
@@ -290,8 +287,7 @@ export default function PagesManagementPage() {
         metaTitle: '',
         metaDescription: '',
         isPublished: true,
-        showInFooter: false,
-        showInHeader: false,
+        // تم إزالة خيارات العرض في الهيدر والفوتر لتتم إدارتها عبر القوائم فقط
       });
     }
   }, [isAddDialogOpen, addForm]);
