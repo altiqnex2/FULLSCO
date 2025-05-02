@@ -27,6 +27,8 @@ const Header = () => {
   // استخدام قائمة الهيدر الديناميكية
   const { data: headerPages, isLoading: pagesLoading } = usePages({ showInHeader: true });
   const { data: menuStructure, isError: menuError, isLoading: menuLoading } = useMenuStructure("header");
+  // تحميل قائمة الموبايل لاستخدامها في القائمة المتنقلة
+  const { data: mobileMenuStructure, isError: mobileMenuError, isLoading: mobileMenuLoading } = useMenuStructure("mobile");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -250,21 +252,19 @@ const Header = () => {
                   <span className={isActive('/') ? 'text-primary font-semibold' : ''}>الرئيسية</span>
                 </div>
               </Link>
-              <Link href="/scholarships">
-                <div className="flex items-center gap-2 rounded-md px-3 py-2.5 text-base font-medium text-foreground/80 hover:bg-muted hover:text-primary">
-                  <span className={isActive('/scholarships') ? 'text-primary font-semibold' : ''}>المنح الدراسية</span>
-                </div>
-              </Link>
-              <Link href="/articles">
-                <div className="flex items-center gap-2 rounded-md px-3 py-2.5 text-base font-medium text-foreground/80 hover:bg-muted hover:text-primary">
-                  <span className={isActive('/articles') ? 'text-primary font-semibold' : ''}>موارد تعليمية</span>
-                </div>
-              </Link>
-              <Link href="/success-stories">
-                <div className="flex items-center gap-2 rounded-md px-3 py-2.5 text-base font-medium text-foreground/80 hover:bg-muted hover:text-primary">
-                  <span className={isActive('/success-stories') ? 'text-primary font-semibold' : ''}>قصص نجاح</span>
-                </div>
-              </Link>
+              
+              {/* قائمة الموبايل الديناميكية */}
+              {mobileMenuStructure && !mobileMenuError && (
+                <DynamicMenu 
+                  location="mobile" 
+                  className="flex flex-col space-y-1"
+                  itemClassName="flex items-center gap-2 rounded-md px-3 py-2.5 text-base font-medium text-foreground/80 hover:bg-muted hover:text-primary"
+                  activeItemClassName="text-primary font-semibold"
+                  dropdownClassName="pl-4 mt-1 space-y-1 border-r border-border pr-0"
+                  dropdownItemClassName="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-foreground/80 hover:bg-muted hover:text-primary"
+                  onItemClick={() => setMobileMenuOpen(false)}
+                />
+              )}
               
               {/* عرض الصفحات الثابتة في القائمة المتنقلة */}
               {headerPages?.filter(page => page.showInHeader && page.isPublished).map(page => (
@@ -277,17 +277,22 @@ const Header = () => {
                 </Link>
               ))}
               
-              {/* الصفحات الافتراضية إذا لم يتم العثور على الصفحات الديناميكية */}
-              {(!headerPages || headerPages.length === 0) && (
+              {/* قائمة احتياطية في حالة فشل القائمة الديناميكية */}
+              {(!mobileMenuStructure || mobileMenuError) && (
                 <>
-                  <Link href="/about">
+                  <Link href="/scholarships">
                     <div className="flex items-center gap-2 rounded-md px-3 py-2.5 text-base font-medium text-foreground/80 hover:bg-muted hover:text-primary">
-                      <span className={isActive('/about') ? 'text-primary font-semibold' : ''}>عن الموقع</span>
+                      <span className={isActive('/scholarships') ? 'text-primary font-semibold' : ''}>المنح الدراسية</span>
                     </div>
                   </Link>
-                  <Link href="/contact">
+                  <Link href="/articles">
                     <div className="flex items-center gap-2 rounded-md px-3 py-2.5 text-base font-medium text-foreground/80 hover:bg-muted hover:text-primary">
-                      <span className={isActive('/contact') ? 'text-primary font-semibold' : ''}>اتصل بنا</span>
+                      <span className={isActive('/articles') ? 'text-primary font-semibold' : ''}>موارد تعليمية</span>
+                    </div>
+                  </Link>
+                  <Link href="/success-stories">
+                    <div className="flex items-center gap-2 rounded-md px-3 py-2.5 text-base font-medium text-foreground/80 hover:bg-muted hover:text-primary">
+                      <span className={isActive('/success-stories') ? 'text-primary font-semibold' : ''}>قصص نجاح</span>
                     </div>
                   </Link>
                 </>

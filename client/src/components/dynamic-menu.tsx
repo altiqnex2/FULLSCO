@@ -85,7 +85,11 @@ export const DynamicMenu = ({
   
   // تصفية العناصر لعرض العناصر المناسبة للموقع الحالي
   let filteredItems = menuItems;
-  const locationMenuId = location === 'header' ? 1 : location === 'footer' ? 2 : location === 'sidebar' ? 3 : null;
+  // تعيين معرفات القوائم المناسبة لكل موقع (header=1, footer=2, sidebar=3, mobile=4)
+  const locationMenuId = location === 'header' ? 1 : 
+                         location === 'footer' ? 2 : 
+                         location === 'sidebar' ? 3 : 
+                         location === 'mobile' ? 4 : null;
   
   if (locationMenuId) {
     // تصفية العناصر لتظهر فقط تلك التي تنتمي إلى القائمة المناسبة
