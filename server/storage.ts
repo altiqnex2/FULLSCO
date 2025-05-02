@@ -1603,6 +1603,17 @@ export const storage = new DatabaseStorage();
 
 // إضافة الدوال المطلوبة يدويًا للكائن المُصَدّر
 
+// إضافة وظيفة listMenus
+storage.listMenus = async (): Promise<Menu[]> => {
+  try {
+    const menusList = await db.select().from(menus);
+    return menusList;
+  } catch (error) {
+    console.error("Error listing menus:", error);
+    return [];
+  }
+};
+
 // إضافة وظيفة listMenuItems
 storage.listMenuItems = async (menuId: number, parentId?: number | null): Promise<MenuItem[]> => {
   try {

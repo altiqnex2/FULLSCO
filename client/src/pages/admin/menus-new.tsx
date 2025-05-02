@@ -311,10 +311,7 @@ export default function MenusPage() {
     // إزالة فراغات من المعرف المختصر وتحويله إلى حروف صغيرة
     const sanitizedSlug = data.slug.trim().toLowerCase().replace(/\s+/g, '-');
     
-    apiRequest('/api/menus', {
-      method: 'POST',
-      data: { ...data, slug: sanitizedSlug }
-    })
+    apiRequest('POST', '/api/menus', { ...data, slug: sanitizedSlug })
       .then(() => {
         queryClient.invalidateQueries({ queryKey: ['/api/menus'] });
         toast({
@@ -337,10 +334,7 @@ export default function MenusPage() {
     // إزالة فراغات من المعرف المختصر وتحويله إلى حروف صغيرة
     const sanitizedSlug = data.slug.trim().toLowerCase().replace(/\s+/g, '-');
     
-    apiRequest(`/api/menus/${data.id}`, {
-      method: 'PATCH',
-      data: { ...data, slug: sanitizedSlug }
-    })
+    apiRequest('PATCH', `/api/menus/${data.id}`, { ...data, slug: sanitizedSlug })
       .then(() => {
         queryClient.invalidateQueries({ queryKey: ['/api/menus'] });
         toast({
@@ -362,9 +356,7 @@ export default function MenusPage() {
   const handleDeleteMenu = () => {
     if (!selectedMenu) return;
     
-    apiRequest(`/api/menus/${selectedMenu.id}`, {
-      method: 'DELETE'
-    })
+    apiRequest('DELETE', `/api/menus/${selectedMenu.id}`)
       .then(() => {
         queryClient.invalidateQueries({ queryKey: ['/api/menus'] });
         // إذا كانت القائمة المحذوفة هي النشطة حالياً، قم بإعادة التعيين
@@ -394,10 +386,7 @@ export default function MenusPage() {
     ) || [];
     const order = sameLevel.length;
     
-    apiRequest('/api/menu-items', {
-      method: 'POST',
-      data: { ...data, order }
-    })
+    apiRequest('POST', '/api/menu-items', { ...data, order })
       .then(() => {
         queryClient.invalidateQueries({ queryKey: ['/api/menu-items-with-details/menu', activeMenuId] });
         queryClient.invalidateQueries({ queryKey: ['/api/menu-structure', activeTab] });
@@ -432,10 +421,7 @@ export default function MenusPage() {
   };
   
   const handleEditMenuItem = (data: MenuItemFormValues) => {
-    apiRequest(`/api/menu-items/${data.id}`, {
-      method: 'PATCH',
-      data
-    })
+    apiRequest('PATCH', `/api/menu-items/${data.id}`, data)
       .then(() => {
         queryClient.invalidateQueries({ queryKey: ['/api/menu-items-with-details/menu', activeMenuId] });
         queryClient.invalidateQueries({ queryKey: ['/api/menu-structure', activeTab] });
@@ -458,9 +444,7 @@ export default function MenusPage() {
   const handleDeleteMenuItem = () => {
     if (!selectedMenuItem) return;
     
-    apiRequest(`/api/menu-items/${selectedMenuItem.id}`, {
-      method: 'DELETE'
-    })
+    apiRequest('DELETE', `/api/menu-items/${selectedMenuItem.id}`)
       .then(() => {
         queryClient.invalidateQueries({ queryKey: ['/api/menu-items-with-details/menu', activeMenuId] });
         queryClient.invalidateQueries({ queryKey: ['/api/menu-structure', activeTab] });
