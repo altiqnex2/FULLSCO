@@ -80,7 +80,7 @@ const FeaturedScholarships = () => {
   }
 
   return (
-    <section className="bg-gradient-to-b from-background to-muted/30 py-16">
+    <section className="bg-gradient-to-b from-background to-muted/30 py-20 border-b border-border/30">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
           <h2 className="mb-3 bg-gradient-to-r from-primary to-accent bg-clip-text text-3xl font-bold text-transparent sm:text-4xl">المنح الدراسية المميزة</h2>

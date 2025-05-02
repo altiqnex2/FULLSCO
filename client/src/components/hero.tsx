@@ -48,7 +48,7 @@ const Hero = ({
   ];
 
   return (
-    <section className="relative isolate overflow-hidden bg-gradient-to-br from-primary/95 via-primary to-primary/90 py-20 md:py-28 lg:py-32">
+    <section className="relative isolate overflow-hidden bg-gradient-to-br from-primary/95 via-primary to-primary/90 py-20 md:py-28 lg:py-32 border-b border-white/10">
       {/* خلفية متطورة */}
       <div aria-hidden="true" className="absolute inset-0 z-0">
         {/* نمط شبكي */}
@@ -113,20 +113,27 @@ const Hero = ({
               <Button 
                 onClick={() => navigate('/scholarships')}
                 size="lg"
-                className="group inline-flex min-w-44 items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-lg font-semibold text-primary shadow-xl transition-all hover:bg-white hover:shadow-accent/20"
+                className="group relative inline-flex min-w-44 items-center justify-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-primary via-primary to-accent p-[2px] text-lg font-semibold transition-all hover:shadow-lg hover:shadow-accent/20"
               >
-                استكشف المنح 
-                <MoveRight className="h-5 w-5 transform transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1" />
+                <span className="absolute inset-0 overflow-hidden rounded-full opacity-30">
+                  <span className="absolute -inset-2 animate-[spin_3s_linear_infinite] bg-gradient-to-r from-accent via-white to-primary opacity-0 group-hover:opacity-100"></span>
+                </span>
+                <span className="relative flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 transition-all duration-300 group-hover:bg-white/95">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">استكشف المنح</span> 
+                  <MoveRight className="h-5 w-5 transform text-accent transition-transform group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1" />
+                </span>
               </Button>
               
               <Button 
                 onClick={() => navigate('/articles')}
                 variant="outline"
                 size="lg"
-                className="group inline-flex min-w-44 items-center justify-center gap-2 rounded-full border-white/50 bg-white/20 text-lg font-medium text-white backdrop-blur-sm transition-all hover:bg-white/30 hover:border-white/80"
+                className="group inline-flex min-w-44 items-center justify-center gap-2 overflow-hidden rounded-full border-white/50 bg-white/20 px-6 py-3 text-lg font-medium text-white backdrop-blur-sm transition-all hover:bg-white/20 hover:border-white hover:shadow-lg hover:shadow-white/10"
               >
-                دليل التقديم
-                <ArrowUpRight className="ml-2 h-5 w-5 transform transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+                <span className="relative">دليل التقديم</span>
+                <span className="relative flex h-6 w-6 items-center justify-center overflow-hidden rounded-full bg-white/30 group-hover:bg-white/40">
+                  <ArrowUpRight className="h-4 w-4 text-white transform transition-all duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+                </span>
               </Button>
             </div>
             
@@ -240,36 +247,40 @@ const Hero = ({
             </div>
             
             <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
-              <div className="group overflow-hidden rounded-xl bg-gradient-to-br from-white/20 to-white/10 p-4 backdrop-blur-md transition-all hover:-translate-y-1 hover:shadow-lg">
-                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-white/20 text-white transition-transform group-hover:scale-110">
+              <div className="group relative overflow-hidden rounded-xl border border-white/5 bg-gradient-to-br from-white/20 to-white/5 p-4 backdrop-blur-lg transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-xl">
+                <div className="absolute -right-6 -top-6 h-16 w-16 rounded-full bg-accent/20 opacity-50 blur-xl transition-all duration-300 group-hover:bg-accent/30 group-hover:opacity-80"></div>
+                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-tr from-white/20 to-white/5 text-white transition-transform duration-300 group-hover:scale-110 group-hover:shadow-lg">
                   <Award className="h-6 w-6" />
                 </div>
-                <p className="text-xl font-bold text-white">+1000</p>
-                <p className="text-xs text-white/90">منحة متاحة</p>
+                <p className="text-xl font-bold text-white transition-transform duration-200 group-hover:scale-105 group-hover:text-accent-foreground">+1000</p>
+                <p className="text-xs text-white/90 transition-all duration-200 group-hover:text-white">منحة متاحة</p>
               </div>
               
-              <div className="group overflow-hidden rounded-xl bg-gradient-to-br from-white/20 to-white/10 p-4 backdrop-blur-md transition-all hover:-translate-y-1 hover:shadow-lg">
-                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-white/20 text-white transition-transform group-hover:scale-110">
+              <div className="group relative overflow-hidden rounded-xl border border-white/5 bg-gradient-to-br from-white/20 to-white/5 p-4 backdrop-blur-lg transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-xl">
+                <div className="absolute -right-6 -top-6 h-16 w-16 rounded-full bg-primary/20 opacity-50 blur-xl transition-all duration-300 group-hover:bg-primary/30 group-hover:opacity-80"></div>
+                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-tr from-white/20 to-white/5 text-white transition-transform duration-300 group-hover:scale-110 group-hover:shadow-lg">
                   <Globe className="h-6 w-6" />
                 </div>
-                <p className="text-xl font-bold text-white">+50</p>
-                <p className="text-xs text-white/90">دولة حول العالم</p>
+                <p className="text-xl font-bold text-white transition-transform duration-200 group-hover:scale-105 group-hover:text-primary-foreground">+50</p>
+                <p className="text-xs text-white/90 transition-all duration-200 group-hover:text-white">دولة حول العالم</p>
               </div>
               
-              <div className="group overflow-hidden rounded-xl bg-gradient-to-br from-white/20 to-white/10 p-4 backdrop-blur-md transition-all hover:-translate-y-1 hover:shadow-lg">
-                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-white/20 text-white transition-transform group-hover:scale-110">
+              <div className="group relative overflow-hidden rounded-xl border border-white/5 bg-gradient-to-br from-white/20 to-white/5 p-4 backdrop-blur-lg transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-xl">
+                <div className="absolute -right-6 -top-6 h-16 w-16 rounded-full bg-accent/20 opacity-50 blur-xl transition-all duration-300 group-hover:bg-accent/30 group-hover:opacity-80"></div>
+                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-tr from-white/20 to-white/5 text-white transition-transform duration-300 group-hover:scale-110 group-hover:shadow-lg">
                   <Target className="h-6 w-6" />
                 </div>
-                <p className="text-xl font-bold text-white">+200</p>
-                <p className="text-xs text-white/90">قصة نجاح</p>
+                <p className="text-xl font-bold text-white transition-transform duration-200 group-hover:scale-105 group-hover:text-accent-foreground">+200</p>
+                <p className="text-xs text-white/90 transition-all duration-200 group-hover:text-white">قصة نجاح</p>
               </div>
               
-              <div className="group overflow-hidden rounded-xl bg-gradient-to-br from-white/20 to-white/10 p-4 backdrop-blur-md transition-all hover:-translate-y-1 hover:shadow-lg">
-                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-white/20 text-white transition-transform group-hover:scale-110">
+              <div className="group relative overflow-hidden rounded-xl border border-white/5 bg-gradient-to-br from-white/20 to-white/5 p-4 backdrop-blur-lg transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-xl">
+                <div className="absolute -right-6 -top-6 h-16 w-16 rounded-full bg-primary/20 opacity-50 blur-xl transition-all duration-300 group-hover:bg-primary/30 group-hover:opacity-80"></div>
+                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-tr from-white/20 to-white/5 text-white transition-transform duration-300 group-hover:scale-110 group-hover:shadow-lg">
                   <CalendarClock className="h-6 w-6" />
                 </div>
-                <p className="text-xl font-bold text-white">+100</p>
-                <p className="text-xs text-white/90">مقال إرشادي</p>
+                <p className="text-xl font-bold text-white transition-transform duration-200 group-hover:scale-105 group-hover:text-primary-foreground">+100</p>
+                <p className="text-xs text-white/90 transition-all duration-200 group-hover:text-white">مقال إرشادي</p>
               </div>
             </div>
           </div>
