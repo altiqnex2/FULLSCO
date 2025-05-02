@@ -184,7 +184,14 @@ const Scholarships = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">المستوى الدراسي</label>
                 <Select 
                   value={filters.level} 
-                  onValueChange={(value) => setFilters({...filters, level: value})}
+                  onValueChange={(value) => {
+                    // تحديث الفلاتر أولاً
+                    const newFilters = {...filters, level: value};
+                    setFilters(newFilters);
+                    
+                    // تحديث URL بناءً على الفلاتر الجديدة
+                    updateURL(newFilters);
+                  }}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="جميع المستويات" />
@@ -204,7 +211,14 @@ const Scholarships = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">الفئة</label>
                 <Select 
                   value={filters.category} 
-                  onValueChange={(value) => setFilters({...filters, category: value})}
+                  onValueChange={(value) => {
+                    // تحديث الفلاتر أولاً
+                    const newFilters = {...filters, category: value};
+                    setFilters(newFilters);
+                    
+                    // تحديث URL بناءً على الفلاتر الجديدة
+                    updateURL(newFilters);
+                  }}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="جميع الفئات" />
@@ -224,7 +238,14 @@ const Scholarships = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">التمويل</label>
                 <Select 
                   value={filters.funded} 
-                  onValueChange={(value) => setFilters({...filters, funded: value})}
+                  onValueChange={(value) => {
+                    // تحديث الفلاتر أولاً
+                    const newFilters = {...filters, funded: value};
+                    setFilters(newFilters);
+                    
+                    // تحديث URL بناءً على الفلاتر الجديدة
+                    updateURL(newFilters);
+                  }}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="أي تمويل" />
@@ -238,7 +259,11 @@ const Scholarships = () => {
             </div>
             
             <div className="mt-4 flex justify-end">
-              <Button variant="outline" className="ml-2" onClick={() => setFilters({ country: '', level: '', category: '', funded: '' })}>
+              <Button variant="outline" className="ml-2" onClick={() => {
+                const newFilters = { country: '', level: '', category: '', funded: '' };
+                setFilters(newFilters);
+                updateURL(newFilters);
+              }}>
                 إعادة ضبط
               </Button>
               <Button className="flex items-center">
@@ -387,7 +412,11 @@ const Scholarships = () => {
               <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
                 <h3 className="text-lg font-medium text-gray-900 mb-2">لم يتم العثور على منح دراسية</h3>
                 <p className="text-gray-600 mb-6">حاول ضبط الفلاتر أو معايير البحث الخاصة بك.</p>
-                <Button onClick={() => setFilters({ country: '', level: '', category: '', funded: '' })}>
+                <Button onClick={() => {
+                  const newFilters = { country: '', level: '', category: '', funded: '' };
+                  setFilters(newFilters);
+                  updateURL(newFilters);
+                }}>
                   إعادة ضبط جميع الفلاتر
                 </Button>
               </div>
