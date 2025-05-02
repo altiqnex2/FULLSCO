@@ -83,28 +83,12 @@ export const DynamicMenu = ({
     return <div className={className}>تعذر تحميل القائمة: بيانات غير صالحة</div>;
   }
   
-  // تصفية العناصر لعرض العناصر المناسبة للموقع الحالي
+  // نستخدم العناصر مباشرة من بيانات API دون تصفية إضافية
+  // لأن النقطة النهائية لـ API ترجع بالفعل القائمة المطلوبة فقط
   let filteredItems = menuItems;
-  // تعيين معرفات القوائم المناسبة لكل موقع (header=1, footer=2, sidebar=3, mobile=4)
-  const locationMenuId = location === 'header' ? 1 : 
-                         location === 'footer' ? 2 : 
-                         location === 'sidebar' ? 3 : 
-                         location === 'mobile' ? 4 : null;
   
-  if (locationMenuId) {
-    // تصفية العناصر بشكل صارم لتظهر فقط تلك التي تنتمي إلى القائمة المناسبة
-    // للتعامل مع مشكلة تضمين عناصر من جميع القوائم في الاستجابة
-    console.log(`Trying to filter items for menu ID ${locationMenuId} (${location})...`);
-    const strictlyFilteredItems = menuItems.filter(item => Number(item.menuId) === locationMenuId);
-    
-    // إذا لم تكن هناك عناصر بعد التصفية الصارمة، نستخدم تصفية قائمة على مستوى رأسي
-    if (strictlyFilteredItems.length > 0) {
-      filteredItems = strictlyFilteredItems;
-      console.log(`Strict filtering found ${strictlyFilteredItems.length} items for menu ID ${locationMenuId} (${location})`);
-    } else {
-      console.warn(`No items found for menu ID ${locationMenuId} (${location}) using strict filtering. Falling back to original items.`);
-    }
-  }
+  // للتوافق مع السجل القديم
+  console.log(`Using menu items for location: ${location} with ${menuItems?.length || 0} items`);
 
   const getItemUrl = (item: MenuItem): string => {
     switch (item.type) {
