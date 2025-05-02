@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { useMenuStructure, type MenuItem } from "@/hooks/use-menu";
+import { usePages } from "@/hooks/use-pages";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -104,20 +105,19 @@ export const DynamicMenu = ({
     console.log(`Filtered items for menu ID ${locationMenuId} (${location}): found ${filteredItems.length} items`);
   }
 
-  // دالة للحصول على سلاق الصفحة من المعرف
+  // استخدام مكون جلب البيانات من خلال hook لجلب جميع الصفحات
+  const { data: pages } = usePages(); 
+  
+  // دالة للحصول على سلاق الصفحة من المعرف بشكل ديناميكي
   const getPageSlug = (pageId: number | null): string | null => {
     if (!pageId) return null;
+    if (!pages || !Array.isArray(pages)) return null;
     
-    // من نحن - about-us
-    if (pageId === 1) return 'about-us';
-    // دق علينا - contact-us
-    if (pageId === 2) return 'contact-us';
-    // سياسة الخصوصية - privacy-policy
-    if (pageId === 3) return 'privacy-policy';
-    // شروط الاستخدام - terms-of-service
-    if (pageId === 4) return 'terms-of-service';
-    // الأسئلة الشائعة - faq
-    if (pageId === 5) return 'faq';
+    // البحث عن الصفحة بواسطة المعرف
+    const page = pages.find(p => p.id === pageId);
+    if (page && page.slug) {
+      return page.slug;
+    }
     
     // إذا لم يتم العثور على سلاق مطابق، نعود إلى المسار بالمعرف
     return null;

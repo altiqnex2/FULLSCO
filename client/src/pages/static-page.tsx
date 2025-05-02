@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useParams, useLocation } from "wouter";
-import { usePage } from "@/hooks/use-pages";
+import { usePage, usePages } from "@/hooks/use-pages";
 import { Helmet } from "react-helmet";
 import { Loader2 } from "lucide-react";
 
@@ -21,15 +21,37 @@ const StaticPage = (props: StaticPageProps) => {
     slug = params.slug;
   }
   
-  const { data: page, isLoading, error } = usePage(slug || '');
+  // جلب قائمة الصفحات لاستخدامها في التحقق من المسارات المحجوزة
+  const { data: allPages } = usePages();
   const [_, setLocation] = useLocation();
-
+  
+  // التحقق من المسارات المحجوزة - إذا كان المسار يمثل مساراً آخر في التطبيق وليس صفحة ثابتة
+  const reservedPaths = [
+    'admin', 'scholarships', 'scholarship', 'articles', 'article', 'login', 'register',
+    'dashboard', 'profile', 'search', 'pages', 'page', 'api'
+  ];
+  
+  // التحقق مما إذا كان المسار محجوزاً 
+  useEffect(() => {
+    if (slug && reservedPaths.includes(slug)) {
+      console.log(`المسار /${slug} محجوز لاستخدام آخر في التطبيق`);
+      setLocation("/404");
+      return;
+    }
+  }, [slug, setLocation]);
+  
+  // فحص إذا كان المسار موجود في قائمة الصفحات
+  const isValidPage = allPages && slug ? allPages.some(page => page.slug === slug) : false;
+  
+  // جلب بيانات الصفحة فقط إذا كانت المسارات صالحة
+  const { data: page, isLoading, error } = usePage(slug || '', isValidPage);
+  
   useEffect(() => {
     // إذا كان هناك خطأ (مثل الصفحة غير موجودة)، قم بالتوجيه إلى صفحة الخطأ
-    if (error && !isLoading) {
+    if ((error && !isLoading) || (!isValidPage && slug)) {
       setLocation("/404");
     }
-  }, [error, isLoading, setLocation]);
+  }, [error, isLoading, setLocation, isValidPage, slug]);
 
   if (isLoading) {
     return (

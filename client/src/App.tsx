@@ -107,26 +107,12 @@ function App() {
                     <Route path="/scholarships/:slug" component={ScholarshipDetail} />
                     <Route path="/articles" component={Articles} />
                     <Route path="/articles/:slug" component={ArticleDetail} />
-                    {/* مسارات الصفحات الثابتة باستخدام السلاق مباشرةً */}
-                    <Route path="/privacy-policy">
-                      {() => <StaticPage slug="privacy-policy" />}
-                    </Route>
-                    <Route path="/about-us">
-                      {() => <StaticPage slug="about-us" />}
-                    </Route>
-                    <Route path="/terms-of-service">
-                      {() => <StaticPage slug="terms-of-service" />}
-                    </Route>
-                    <Route path="/faq">
-                      {() => <StaticPage slug="faq" />}
-                    </Route>
-                    <Route path="/contact-us">
-                      {() => <StaticPage slug="contact-us" />}
-                    </Route>
-                    
-                    {/* مسارات الصفحات العامة باستخدام السلاق والمعرف - للدعم المستقبلي */}
+                    {/* مسارات الصفحات العامة باستخدام السلاق والمعرف */}
                     <Route path="/page/:slug" component={StaticPage} />
                     <Route path="/pages/:id" component={PageById} />
+                    
+                    {/* مسار عام للصفحات باستخدام السلاق مباشرة - مثل /about-us */}
+                    <Route path="/:slug" component={StaticPage} />
                     
                     {/* Admin Login */}
                     <Route path="/admin/login" component={AdminLogin} />
