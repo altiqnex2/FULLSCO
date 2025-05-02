@@ -1600,3 +1600,44 @@ export class DatabaseStorage implements IStorage {
 }
 
 export const storage = new DatabaseStorage();
+
+// إضافة وظيفة getMenuStructure يدويًا للكائن المُصَدّر
+storage.getMenuStructure = async (location: string): Promise<any> => {
+  try {
+    // الحصول على القائمة بواسطة الموقع
+    const menu = await storage.getMenuByLocation(location);
+    if (!menu) {
+      return null;
+    }
+    
+    // الحصول على العناصر الرئيسية (parentId هو null)
+    const rootItems = await storage.listMenuItems(menu.id, null);
+    
+    // تحضير الهيكل
+    const structure = {
+      id: menu.id,
+      name: menu.name,
+      slug: menu.slug,
+      location: menu.location,
+      items: []
+    };
+    
+    // لكل عنصر رئيسي، نحصل على العناصر الفرعية
+    for (const rootItem of rootItems) {
+      const item: any = { ...rootItem, children: [] };
+      
+      if (rootItem.id) {
+        // الحصول على العناصر الفرعية لهذا العنصر الرئيسي
+        const children = await storage.listMenuItems(menu.id, rootItem.id);
+        item.children = children || [];
+      }
+      
+      structure.items.push(item);
+    }
+    
+    return structure;
+  } catch (error) {
+    console.error(`Error getting menu structure for ${location}:`, error);
+    throw error; // رمي الخطأ لمعالجته في مسار API
+  }
+};
