@@ -187,7 +187,7 @@ const Header = () => {
             
             <div className="flex items-center gap-2 md:gap-3">
               {user ? (
-                <Link href="/admin">
+                <Link href="/admin/dashboard">
                   <Button 
                     className="button-hover hidden items-center gap-2 rounded-full border-primary bg-primary/10 text-primary hover:bg-primary/20 sm:flex"
                     variant="outline"
@@ -299,7 +299,7 @@ const Header = () => {
             
             <div className="mt-4 flex items-center justify-between gap-4 border-t border-border pt-4">
               {user ? (
-                <Link href="/admin" className="flex-1">
+                <Link href="/admin/dashboard" className="flex-1">
                   <Button className="w-full">لوحة التحكم</Button>
                 </Link>
               ) : (

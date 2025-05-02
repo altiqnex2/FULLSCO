@@ -58,6 +58,7 @@ function App() {
   // Get current location to determine if we're on an admin page
   const [location] = useLocation();
   const isAdminPage = location.startsWith("/admin");
+  const isAdminDashboard = location === "/admin/dashboard" || location === "/admin";
   const isNewAdminDashboard = location === "/admin/new";
 
   // Add metadata to document head
@@ -120,8 +121,11 @@ function App() {
                     {/* New Admin Dashboard */}
                     <Route path="/admin/new" component={NewDashboard} />
                     
+                    {/* Root Admin Route - Redirects to Dashboard */}
+                    <Route path="/admin" exact component={AdminDashboard} />
+                    
                     {/* Original Admin Routes */}
-                    <Route path="/admin" component={AdminDashboard} />
+                    <Route path="/admin/dashboard" component={AdminDashboard} />
                     <Route path="/admin/scholarships" component={AdminScholarships} />
                     <Route path="/admin/scholarships/create" component={CreateScholarship} />
                     <Route path="/admin/scholarships/edit/:id" component={CreateScholarship} />
