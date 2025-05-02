@@ -247,13 +247,7 @@ const Header = () => {
             </div>
 
             <div className="space-y-1 py-2">
-              <Link href="/">
-                <div className="flex items-center gap-2 rounded-md px-3 py-2.5 text-base font-medium text-foreground/80 hover:bg-muted hover:text-primary">
-                  <span className={isActive('/') ? 'text-primary font-semibold' : ''}>الرئيسية</span>
-                </div>
-              </Link>
-              
-              {/* قائمة الموبايل الديناميكية */}
+              {/* قائمة الموبايل الديناميكية - تتضمن الرئيسية وجميع الروابط الأخرى */}
               <DynamicMenu 
                 location="mobile" 
                 className="flex flex-col space-y-1"
@@ -264,20 +258,15 @@ const Header = () => {
                 onItemClick={() => setMobileMenuOpen(false)}
               />
               
-              {/* عرض الصفحات الثابتة في القائمة المتنقلة */}
-              {headerPages?.filter(page => page.showInHeader && page.isPublished).map(page => (
-                <Link key={page.id} href={`/page/${page.slug}`}>
-                  <div className="flex items-center gap-2 rounded-md px-3 py-2.5 text-base font-medium text-foreground/80 hover:bg-muted hover:text-primary">
-                    <span className={isPageActive(page.slug) ? 'text-primary font-semibold' : ''}>
-                      {page.title}
-                    </span>
-                  </div>
-                </Link>
-              ))}
-              
               {/* قائمة احتياطية في حالة فشل القائمة الديناميكية */}
               {(!mobileMenuStructure || mobileMenuError) && (
                 <>
+                  {/* الروابط الرئيسية */}
+                  <Link href="/">
+                    <div className="flex items-center gap-2 rounded-md px-3 py-2.5 text-base font-medium text-foreground/80 hover:bg-muted hover:text-primary">
+                      <span className={isActive('/') ? 'text-primary font-semibold' : ''}>الرئيسية</span>
+                    </div>
+                  </Link>
                   <Link href="/scholarships">
                     <div className="flex items-center gap-2 rounded-md px-3 py-2.5 text-base font-medium text-foreground/80 hover:bg-muted hover:text-primary">
                       <span className={isActive('/scholarships') ? 'text-primary font-semibold' : ''}>المنح الدراسية</span>
@@ -293,6 +282,17 @@ const Header = () => {
                       <span className={isActive('/success-stories') ? 'text-primary font-semibold' : ''}>قصص نجاح</span>
                     </div>
                   </Link>
+                  
+                  {/* الصفحات الثابتة */}
+                  {headerPages?.filter(page => page.showInHeader && page.isPublished).map(page => (
+                    <Link key={page.id} href={`/page/${page.slug}`}>
+                      <div className="flex items-center gap-2 rounded-md px-3 py-2.5 text-base font-medium text-foreground/80 hover:bg-muted hover:text-primary">
+                        <span className={isPageActive(page.slug) ? 'text-primary font-semibold' : ''}>
+                          {page.title}
+                        </span>
+                      </div>
+                    </Link>
+                  ))}
                 </>
               )}
             </div>
