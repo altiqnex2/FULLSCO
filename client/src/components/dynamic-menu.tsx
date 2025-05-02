@@ -83,12 +83,19 @@ export const DynamicMenu = ({
     return <div className={className}>تعذر تحميل القائمة: بيانات غير صالحة</div>;
   }
   
-  // نستخدم العناصر مباشرة من بيانات API دون تصفية إضافية
-  // لأن النقطة النهائية لـ API ترجع بالفعل القائمة المطلوبة فقط
+  // تصفية العناصر لعرض العناصر المناسبة للموقع الحالي
   let filteredItems = menuItems;
+  // تعيين معرفات القوائم المناسبة لكل موقع (header=1, footer=2, sidebar=3, mobile=4)
+  const locationMenuId = location === 'header' ? 1 : 
+                         location === 'footer' ? 2 : 
+                         location === 'sidebar' ? 3 : 
+                         location === 'mobile' ? 4 : null;
   
-  // للتوافق مع السجل القديم
-  console.log(`Using menu items for location: ${location} with ${menuItems?.length || 0} items`);
+  if (locationMenuId) {
+    // تصفية العناصر لتظهر فقط تلك التي تنتمي إلى القائمة المناسبة
+    filteredItems = menuItems.filter(item => Number(item.menuId) === locationMenuId);
+    console.log(`Filtered items for menu ID ${locationMenuId} (${location}): found ${filteredItems.length} items`);
+  }
 
   const getItemUrl = (item: MenuItem): string => {
     switch (item.type) {
