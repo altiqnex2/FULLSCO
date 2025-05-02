@@ -37,7 +37,9 @@ export interface MenuStructure {
   name: string;
   slug: string;
   location: 'header' | 'footer' | 'sidebar' | 'mobile';
-  items: MenuItem[];
+  items?: MenuItem[];
+  // هيكل مرن للتعامل مع الاستجابات المتنوعة من API
+  [key: string]: any;
 }
 
 export function useMenus() {

@@ -54,9 +54,33 @@ export const DynamicMenu = ({
   // طباعة هيكل القائمة للتشخيص
   console.log(`Menu structure for ${location}:`, menuStructure);
   
-  if (!menuStructure.items) {
-    console.error(`Menu items for ${location} are undefined`);
-    return <div className={className}>تعذر تحميل القائمة: لا توجد عناصر</div>;
+  // تحقق من هيكل البيانات المستلمة
+  // هناك احتمالان: إما أن تكون العناصر مباشرة في menuStructure.items
+  // أو أن تكون تحت اسم الموقع مثل menuStructure.header.items أو menuStructure.footer.items
+  let menuItems;
+  
+  if (menuStructure.items) {
+    menuItems = menuStructure.items;
+  } else if (menuStructure[location] && menuStructure[location].items) {
+    menuItems = menuStructure[location].items;
+  } else {
+    // محاولة البحث عن العناصر في المفاتيح الأخرى
+    const firstKey = Object.keys(menuStructure).find(key => 
+      menuStructure[key] && typeof menuStructure[key] === 'object' && menuStructure[key].items);
+    
+    if (firstKey && menuStructure[firstKey].items) {
+      console.log(`Found items in the key: ${firstKey}`);
+      menuItems = menuStructure[firstKey].items;
+    } else {
+      console.error(`Menu items for ${location} are undefined`);
+      return <div className={className}>تعذر تحميل القائمة: لا توجد عناصر</div>;
+    }
+  }
+  
+  // تأكد من أن menuItems مصفوفة
+  if (!Array.isArray(menuItems)) {
+    console.error(`Menu items for ${location} is not an array:`, menuItems);
+    return <div className={className}>تعذر تحميل القائمة: بيانات غير صالحة</div>;
   }
 
   const getItemUrl = (item: MenuItem): string => {
@@ -146,7 +170,7 @@ export const DynamicMenu = ({
 
   return (
     <div className={className}>
-      {menuStructure.items.map(renderMenuItem)}
+      {menuItems.map(renderMenuItem)}
     </div>
   );
 };
