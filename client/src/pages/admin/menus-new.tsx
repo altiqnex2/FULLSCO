@@ -388,7 +388,8 @@ export default function MenusPage() {
     
     apiRequest('POST', '/api/menu-items', { ...data, order })
       .then(() => {
-        queryClient.invalidateQueries({ queryKey: ['/api/menu-items-with-details/menu', activeMenuId] });
+        // استخدام المسار الكامل للاستعلام بدلاً من استخدام المفتاح مع المعرف
+        queryClient.invalidateQueries({ queryKey: [`/api/menu-items-with-details/menu/${activeMenuId}`] });
         queryClient.invalidateQueries({ queryKey: ['/api/menu-structure', activeTab] });
         toast({
           title: 'تم الإضافة بنجاح',
@@ -423,7 +424,8 @@ export default function MenusPage() {
   const handleEditMenuItem = (data: MenuItemFormValues) => {
     apiRequest('PATCH', `/api/menu-items/${data.id}`, data)
       .then(() => {
-        queryClient.invalidateQueries({ queryKey: ['/api/menu-items-with-details/menu', activeMenuId] });
+        // استخدام المسار الكامل للاستعلام بدلاً من استخدام المفتاح مع المعرف
+        queryClient.invalidateQueries({ queryKey: [`/api/menu-items-with-details/menu/${activeMenuId}`] });
         queryClient.invalidateQueries({ queryKey: ['/api/menu-structure', activeTab] });
         toast({
           title: 'تم التحديث بنجاح',
@@ -446,7 +448,8 @@ export default function MenusPage() {
     
     apiRequest('DELETE', `/api/menu-items/${selectedMenuItem.id}`)
       .then(() => {
-        queryClient.invalidateQueries({ queryKey: ['/api/menu-items-with-details/menu', activeMenuId] });
+        // استخدام المسار الكامل للاستعلام بدلاً من استخدام المفتاح مع المعرف
+        queryClient.invalidateQueries({ queryKey: [`/api/menu-items-with-details/menu/${activeMenuId}`] });
         queryClient.invalidateQueries({ queryKey: ['/api/menu-structure', activeTab] });
         toast({
           title: 'تم الحذف بنجاح',

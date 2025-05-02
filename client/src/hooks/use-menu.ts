@@ -84,8 +84,10 @@ export function useMenuItems(menuId: number, parentId?: number | null) {
 }
 
 export function useMenuItemsWithDetails(menuId: number) {
+  const queryUrl = `/api/menu-items-with-details/menu/${menuId}`;
+  
   return useQuery({
-    queryKey: ['/api/menu-items-with-details/menu', menuId],
+    queryKey: [queryUrl],
     enabled: !!menuId,
     refetchOnWindowFocus: false
   });
