@@ -254,17 +254,15 @@ const Header = () => {
               </Link>
               
               {/* قائمة الموبايل الديناميكية */}
-              {mobileMenuStructure && !mobileMenuError && (
-                <DynamicMenu 
-                  location="mobile" 
-                  className="flex flex-col space-y-1"
-                  itemClassName="flex items-center gap-2 rounded-md px-3 py-2.5 text-base font-medium text-foreground/80 hover:bg-muted hover:text-primary"
-                  activeItemClassName="text-primary font-semibold"
-                  dropdownClassName="pl-4 mt-1 space-y-1 border-r border-border pr-0"
-                  dropdownItemClassName="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-foreground/80 hover:bg-muted hover:text-primary"
-                  onItemClick={() => setMobileMenuOpen(false)}
-                />
-              )}
+              <DynamicMenu 
+                location="mobile" 
+                className="flex flex-col space-y-1"
+                itemClassName="flex items-center gap-2 rounded-md px-3 py-2.5 text-base font-medium text-foreground/80 hover:bg-muted hover:text-primary"
+                activeItemClassName="text-primary font-semibold"
+                dropdownClassName="pl-4 mt-1 space-y-1 border-r border-border pr-0"
+                dropdownItemClassName="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-foreground/80 hover:bg-muted hover:text-primary"
+                onItemClick={() => setMobileMenuOpen(false)}
+              />
               
               {/* عرض الصفحات الثابتة في القائمة المتنقلة */}
               {headerPages?.filter(page => page.showInHeader && page.isPublished).map(page => (

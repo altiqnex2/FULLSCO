@@ -92,9 +92,18 @@ export const DynamicMenu = ({
                          location === 'mobile' ? 4 : null;
   
   if (locationMenuId) {
-    // تصفية العناصر لتظهر فقط تلك التي تنتمي إلى القائمة المناسبة
-    filteredItems = menuItems.filter(item => item.menuId === locationMenuId);
-    console.log(`Filtered items for menu ID ${locationMenuId} (${location}):`, filteredItems);
+    // تصفية العناصر بشكل صارم لتظهر فقط تلك التي تنتمي إلى القائمة المناسبة
+    // للتعامل مع مشكلة تضمين عناصر من جميع القوائم في الاستجابة
+    console.log(`Trying to filter items for menu ID ${locationMenuId} (${location})...`);
+    const strictlyFilteredItems = menuItems.filter(item => Number(item.menuId) === locationMenuId);
+    
+    // إذا لم تكن هناك عناصر بعد التصفية الصارمة، نستخدم تصفية قائمة على مستوى رأسي
+    if (strictlyFilteredItems.length > 0) {
+      filteredItems = strictlyFilteredItems;
+      console.log(`Strict filtering found ${strictlyFilteredItems.length} items for menu ID ${locationMenuId} (${location})`);
+    } else {
+      console.warn(`No items found for menu ID ${locationMenuId} (${location}) using strict filtering. Falling back to original items.`);
+    }
   }
 
   const getItemUrl = (item: MenuItem): string => {
