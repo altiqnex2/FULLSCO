@@ -1614,6 +1614,67 @@ storage.listMenus = async (): Promise<Menu[]> => {
   }
 };
 
+// إضافة وظائف MenuItem
+
+// إضافة وظيفة getMenuItem
+storage.getMenuItem = async (id: number): Promise<MenuItem | undefined> => {
+  try {
+    const result = await db.select().from(menuItems).where(eq(menuItems.id, id)).limit(1);
+    return result[0];
+  } catch (error) {
+    console.error("Error fetching menu item:", error);
+    throw error;
+  }
+};
+
+// إضافة وظيفة createMenuItem
+storage.createMenuItem = async (item: InsertMenuItem): Promise<MenuItem> => {
+  try {
+    const [createdItem] = await db.insert(menuItems).values(item).returning();
+    return createdItem;
+  } catch (error) {
+    console.error("Error creating menu item:", error);
+    throw error;
+  }
+};
+
+// إضافة وظيفة updateMenuItem
+storage.updateMenuItem = async (id: number, item: Partial<InsertMenuItem>): Promise<MenuItem | undefined> => {
+  try {
+    const [updatedItem] = await db
+      .update(menuItems)
+      .set(item)
+      .where(eq(menuItems.id, id))
+      .returning();
+    return updatedItem;
+  } catch (error) {
+    console.error("Error updating menu item:", error);
+    throw error;
+  }
+};
+
+// إضافة وظيفة deleteMenuItem
+storage.deleteMenuItem = async (id: number): Promise<boolean> => {
+  try {
+    await db.delete(menuItems).where(eq(menuItems.id, id));
+    return true;
+  } catch (error) {
+    console.error("Error deleting menu item:", error);
+    throw error;
+  }
+};
+
+// إضافة وظيفة getAllMenuItemsWithDetails
+storage.getAllMenuItemsWithDetails = async (menuId: number): Promise<any[]> => {
+  try {
+    const items = await db.select().from(menuItems).where(eq(menuItems.menuId, menuId));
+    return items;
+  } catch (error) {
+    console.error("Error fetching menu items with details:", error);
+    throw error;
+  }
+};
+
 // إضافة وظيفة listMenuItems
 storage.listMenuItems = async (menuId: number, parentId?: number | null): Promise<MenuItem[]> => {
   try {
