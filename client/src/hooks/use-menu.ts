@@ -73,13 +73,23 @@ export function useMenuStructure(location: 'header' | 'footer' | 'sidebar' | 'mo
       
       // إضافة معامل عشوائي لمنع التخزين المؤقت في المتصفح
       const cacheBuster = new Date().getTime();
-      const response = await fetch(`/api/menu-structure/${location}?_=${cacheBuster}`);
+      
+      // تصحيح مسار الاستدعاء - الاستدعاء يكون للنقطة النهائية الرئيسية وليس مع وجود location في المسار
+      const response = await fetch(`/api/menu-structure?_=${cacheBuster}`);
       if (!response.ok) {
         throw new Error(`Error fetching menu structure for ${location}`);
       }
       const data = await response.json();
       console.log(`Menu data for ${location}:`, data);
-      return data;
+      
+      // استرجاع القائمة المناسبة وفقًا للموقع المطلوب
+      if (data && data[location]) {
+        console.log(`Menu structure for ${location}:`, data[location]);
+        return data[location];
+      } else {
+        console.error(`Error loading menu for ${location}:`, data);
+        throw new Error(`Menu structure for ${location} not found`);
+      }
     },
     refetchOnWindowFocus: true,  // إعادة تحميل البيانات عند التركيز على النافذة
     refetchInterval: 3000  // إعادة تحميل البيانات كل 3 ثواني
