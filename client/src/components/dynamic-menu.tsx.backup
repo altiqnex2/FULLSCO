@@ -47,21 +47,6 @@ export const DynamicMenu = ({
     );
   };
   
-  // دالة للحصول على سلاق الصفحة من المعرف بشكل ديناميكي
-  const getPageSlug = (pageId: number | null): string | null => {
-    if (!pageId) return null;
-    if (!pages || !Array.isArray(pages)) return null;
-    
-    // البحث عن الصفحة بواسطة المعرف
-    const page = pages.find(p => p.id === pageId);
-    if (page && page.slug) {
-      return page.slug;
-    }
-    
-    // إذا لم يتم العثور على سلاق مطابق، نعود إلى المسار بالمعرف
-    return null;
-  };
-  
   if (isLoading) {
     return <div className={className}>جاري التحميل...</div>;
   }
@@ -121,6 +106,21 @@ export const DynamicMenu = ({
     filteredItems = menuItems.filter(item => Number(item.menuId) === locationMenuId);
     console.log(`Filtered items for menu ID ${locationMenuId} (${location}): found ${filteredItems.length} items`);
   }
+  
+  // دالة للحصول على سلاق الصفحة من المعرف بشكل ديناميكي
+  const getPageSlug = (pageId: number | null): string | null => {
+    if (!pageId) return null;
+    if (!pages || !Array.isArray(pages)) return null;
+    
+    // البحث عن الصفحة بواسطة المعرف
+    const page = pages.find(p => p.id === pageId);
+    if (page && page.slug) {
+      return page.slug;
+    }
+    
+    // إذا لم يتم العثور على سلاق مطابق، نعود إلى المسار بالمعرف
+    return null;
+  };
 
   const getItemUrl = (item: MenuItem): string => {
     switch (item.type) {
